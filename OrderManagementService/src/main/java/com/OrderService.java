@@ -18,18 +18,17 @@ import org.jsoup.nodes.Document;
 public class OrderService {
 	Order orderObj = new Order();
 
-	
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertOrder(@FormParam("productName") String productName, @FormParam("orderQuantity") String orderQuantity,
-			@FormParam("price") String price, @FormParam("prodDesc") String prodDesc ,
-			@FormParam("orderDate") String orderDate ) {
-		String output = orderObj.insertOrder(productName, orderQuantity, price, prodDesc,orderDate);
+	public String insertOrder(@FormParam("productName") String productName,
+			@FormParam("orderQuantity") String orderQuantity, @FormParam("price") String price,
+			@FormParam("prodDesc") String prodDesc, @FormParam("orderDate") String orderDate) {
+		String output = orderObj.insertOrder(productName, orderQuantity, price, prodDesc, orderDate);
 		return output;
 	}
-	
+
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
@@ -37,9 +36,22 @@ public class OrderService {
 		return orderObj.readOrders();
 	}
 
+	@PUT
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String updateOrder(String orderData) {
+		// Convert the input string to a JSON object
+		JsonObject orderObj1 = new JsonParser().parse(orderData).getAsJsonObject();
+		// Read the values from the JSON object
+		String orderID = orderObj1.get("orderID").getAsString();
+		String productName = orderObj1.get("productName").getAsString();
+		String price = orderObj1.get("price").getAsString();
+		String quantity = orderObj1.get("quantity").getAsString();
+		String prodDesc = orderObj1.get("prodDesc").getAsString();
+		String orderDate = orderObj1.get("orderDate").getAsString();
+		String output = orderObj.updateOrder(orderID, productName, price, quantity, prodDesc, orderDate);
+		return output;
+	}
 
-
-
-
-	
 }

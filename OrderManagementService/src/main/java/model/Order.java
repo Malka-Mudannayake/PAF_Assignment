@@ -97,4 +97,39 @@ public class Order {
 		}
 		return output;
 	}
+	
+	//update order details
+	public String updateOrder(String orderID, String productName, String quantity, String price, String prodDesc,String orderDate)
+
+	 {
+			 String output = "";
+			 try
+			 {
+			 Connection con = connect();
+			 if (con == null)
+			 {return "Error while connecting to the database for updating."; }
+			 // create a prepared statement
+			 String query = "UPDATE orders SET productName=?,quantity=?,price=?,prodDesc=?, orderDate=? WHERE orderID=?";
+			 PreparedStatement preparedStmt = con.prepareStatement(query);
+			 // binding values
+			 
+			 preparedStmt.setString(1, productName);
+			 preparedStmt.setString(2, quantity);
+			 preparedStmt.setDouble(3, Double.parseDouble(price));
+			 preparedStmt.setString(4, prodDesc);
+			 preparedStmt.setString(5, orderDate);
+			 preparedStmt.setInt(6, Integer.parseInt(orderID));
+			
+			 // execute the statement
+			 preparedStmt.execute();
+			 con.close();
+			 output = "Updated successfully";
+			 }
+			 catch (Exception e)
+			 {
+			 output = "Error while updating the item.";
+			 System.err.println(e.getMessage());
+			 }
+				return output;
+			}
 }
