@@ -61,8 +61,8 @@ public class Order {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>Product Name</th><th>Price</th>" + "<th>Quantity</th>"
-					+ "<th>Product Description</th>" + "<th>Order Date</th>" + "<th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th> Order ID </th> <th>Product Name</th><th>Price</th>" + "<th>Quantity</th>"
+					+ "<th>Product Description</th>" + "<th>Order Date</th>" + "<th>Update</th><th>Remove</th><th>Buy</th></tr>";
 
 			String query = "select * from orders";
 			Statement stmt = con.createStatement();
@@ -77,7 +77,8 @@ public class Order {
 				String orderDate = rs.getString("orderDate");
 
 				// Add into the html table
-				output += "<tr><td>" + productName + "</td>";
+				output += "<tr><td>" + orderID + "</td>";
+				output += "<td>" + productName + "</td>";
 				output += "<td>" + quantity + "</td>";
 				output += "<td>" + price + "</td>";
 				output += "<td>" + desc + "</td>";
@@ -86,6 +87,7 @@ public class Order {
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
 						+ "<td><form method='post' action='orders.jsp'>"
 						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
+						+ "<input name='btnBuy' type='submit' value='Buy'class='btn btn-danger'>"
 						+ "<input name='orderID' type='hidden' value='" + orderID + "'>" + "</form></td></tr>";
 			}
 			con.close();
