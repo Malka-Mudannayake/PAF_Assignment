@@ -30,7 +30,13 @@ public class OrderService {
 		return output;
 	}
 	
-	
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String readOrders() {
+		return orderObj.readOrders();
+	}
+
 
 
 
