@@ -18,6 +18,7 @@ import org.jsoup.nodes.Document;
 public class OrderService {
 	Order orderObj = new Order();
 
+	//Orders
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -68,4 +69,23 @@ public class OrderService {
 		return output;
 	}
 
+	//Order Payments
+	@POST
+	@Path("/Pay")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String insertPay(@FormParam("orderID") String orderID,
+			@FormParam("payMethod") String payMethod, @FormParam("cardType") String cardType,
+			@FormParam("cardNo") String cardNo, @FormParam("SSN") String SSN , @FormParam("cardExpDate") String cardExpDate,
+			@FormParam("amount") String amount)  {
+		String output = orderObj.insertPay(orderID, payMethod, cardType, cardNo, SSN,cardExpDate,amount);
+		return output;
+	}
+	
+	
+	
 }
+
+
+
+

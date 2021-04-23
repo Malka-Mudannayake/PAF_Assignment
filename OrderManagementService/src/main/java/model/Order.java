@@ -86,15 +86,15 @@ public class Order {
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
 						+ "<td><form method='post' action='orders.jsp'>"
-						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-						+ "<input name='btnBuy' type='submit' value='Buy'class='btn btn-danger'>"
+						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'></td>"
+						+ "<td><input name='btnBuy' type='submit' value='Buy'class='btn btn-danger'>" 
 						+ "<input name='orderID' type='hidden' value='" + orderID + "'>" + "</form></td></tr>";
 			}
 			con.close();
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the items.";
+			output = "Error while reading the orders.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -129,7 +129,7 @@ public class Order {
 			 }
 			 catch (Exception e)
 			 {
-			 output = "Error while updating the item.";
+			 output = "Error while updating the order.";
 			 System.err.println(e.getMessage());
 			 }
 				return output;
@@ -153,11 +153,42 @@ public class Order {
 			con.close();
 			output = "Deleted successfully";
 		} catch (Exception e) {
-			output = "Error while deleting the item.";
+			output = "Error while deleting the order.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 
-	
+	//insert Payments
+	public String insertPay(String orderID, String payMethod, String cardType, String cardNo, String SSN,String cardExpDate,String amount) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for inserting.";
+			}
+			// create a prepared statement
+			String query = " insert into orderPay(`payID`,`orderID`,`payMethod`,`cardType`,`cardNo`,`SSN`,`cardExpDate`,`amount`)"
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			// binding values
+			preparedStmt.setInt(1, 0);
+			preparedStmt.setString(2, orderID);
+			preparedStmt.setString(3, payMethod);
+			preparedStmt.setString(4, cardType);
+			preparedStmt.setString(5, cardNo);
+			preparedStmt.setString(6, SSN);
+			preparedStmt.setString(7, cardExpDate);
+			preparedStmt.setDouble(8, Double.parseDouble(amount));
+			// execute the statement
+
+			preparedStmt.execute();
+			con.close();
+			output = "Inserted successfully";
+		} catch (Exception e) {
+			output = "Error while inserting the order payment.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
 }
