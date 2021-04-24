@@ -24,9 +24,9 @@ public class OrderService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String insertOrder(@FormParam("productName") String productName,
-			@FormParam("orderQuantity") String orderQuantity, @FormParam("price") String price,
+			@FormParam("quantity") String quantity, @FormParam("price") String price,
 			@FormParam("prodDesc") String prodDesc, @FormParam("orderDate") String orderDate) {
-		String output = orderObj.insertOrder(productName, orderQuantity, price, prodDesc, orderDate);
+		String output = orderObj.insertOrder(productName, quantity, price, prodDesc, orderDate);
 		return output;
 	}
 
@@ -82,7 +82,12 @@ public class OrderService {
 		return output;
 	}
 	
-	
+	@GET
+	@Path("/Pay")
+	@Produces(MediaType.TEXT_HTML)
+	public String readOrderPay() {
+		return orderObj.readOrderPay();
+	}
 	
 }
 

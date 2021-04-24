@@ -168,18 +168,18 @@ public class Order {
 				return "Error while connecting to the database for inserting.";
 			}
 			// create a prepared statement
-			String query = " insert into orderPay(`payID`,`orderID`,`payMethod`,`cardType`,`cardNo`,`SSN`,`cardExpDate`,`amount`)"
+			String query = " insert into orderpay(`payID`,`orderID`,`payMethod`,`cardType`,`cardNo`,`SSN`,`cardExpDate`,`amount`)"
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setInt(1, 0);
-			preparedStmt.setString(2, orderID);
+			preparedStmt.setInt(2,Integer.parseInt(orderID));
 			preparedStmt.setString(3, payMethod);
 			preparedStmt.setString(4, cardType);
-			preparedStmt.setString(5, cardNo);
-			preparedStmt.setString(6, SSN);
+			preparedStmt.setInt(5, Integer.parseInt(cardNo));
+			preparedStmt.setInt(6,Integer.parseInt(SSN));
 			preparedStmt.setString(7, cardExpDate);
-			preparedStmt.setDouble(8, Double.parseDouble(amount));
+			preparedStmt.setString(8, amount);
 			// execute the statement
 
 			preparedStmt.execute();
@@ -187,6 +187,53 @@ public class Order {
 			output = "Inserted successfully";
 		} catch (Exception e) {
 			output = "Error while inserting the order payment.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+	
+	//read order payements
+	public String readOrderPay() {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = "<table border='1'><tr><th> pay ID </th> <th>order ID</th><th>Payment Method</th>" + "<th>Card Type</th>"
+					+ "<th>Card No</th> <th> SSN </th>"  + "<th>Card ExpD Date</th> <th>Amount </th>" + "</tr>";
+
+			String query = "select * from orderpay ";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String payID = Integer.toString(rs.getInt("payID"));
+				String orderID = Integer.toString(rs.getInt("orderID"));
+				String payMethod = rs.getString("payMethod");
+				String cardType = rs.getString("cardType");
+				String cardNo  = rs.getString("cardNo");
+				String SSN = rs.getString("SSN");
+				String cardExpDate = rs.getString("cardExpDate");
+				String amount = rs.getString("amount");
+				
+				// Add into the html table
+				output += "<tr><td>" + payID + "</td>";
+				output += "<td>" + orderID + "</td>";
+				output += "<td>" + payMethod + "</td>";
+				output += "<td>" + cardType + "</td>";
+				output += "<td>" + cardNo + "</td>";
+				output += "<td>" + SSN + "</td>";
+				output += "<td>" + cardExpDate + "</td>";
+				output += "<td>" + amount + "</td></tr>";
+				
+			}
+			con.close();
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the orders.";
 			System.err.println(e.getMessage());
 		}
 		return output;
