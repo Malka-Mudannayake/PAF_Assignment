@@ -23,6 +23,7 @@ public class FundRequestService
 {
 		FundRequests fndrObj = new FundRequests();
 	
+		//Get method
 		@GET
 		@Path("/")
 		@Produces(MediaType.TEXT_HTML)
@@ -31,6 +32,7 @@ public class FundRequestService
 				return fndrObj.readFundRequests();
 		}
 	
+		//Post Method
 		@POST
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -48,6 +50,7 @@ public class FundRequestService
 			
 		}
 		
+		//Put method
 		@PUT
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_JSON)
@@ -69,16 +72,17 @@ public class FundRequestService
 			return output;
 		}
 		
+		//Delete Method
 		@DELETE
 		@Path("/") 
 		@Consumes(MediaType.APPLICATION_XML)
 		@Produces(MediaType.TEXT_PLAIN)
 		public String deleteFundRequest(String fundRequestData)
 		{
-			//Convert the input string to an XML document
+			//Converting the input string to an XML document
 			 Document document = Jsoup.parse(fundRequestData, "", Parser.xmlParser());
 
-			//Read the value from the element
+			//Reading values from the element
 			 String requestId = document.select("requestId").text();
 			 String output = fndrObj.deleteFundRequest(requestId);
 			 
