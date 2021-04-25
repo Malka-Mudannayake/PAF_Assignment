@@ -18,14 +18,14 @@ import org.jsoup.nodes.Document;
 public class OrderService {
 	Order orderObj = new Order();
 
-	// Orders
+	//Orders
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertOrder(@FormParam("productName") String productName, @FormParam("quantity") String quantity,
-			@FormParam("price") String price, @FormParam("prodDesc") String prodDesc,
-			@FormParam("orderDate") String orderDate) {
+	public String insertOrder(@FormParam("productName") String productName,
+			@FormParam("quantity") String quantity, @FormParam("price") String price,
+			@FormParam("prodDesc") String prodDesc, @FormParam("orderDate") String orderDate) {
 		String output = orderObj.insertOrder(productName, quantity, price, prodDesc, orderDate);
 		return output;
 	}
@@ -54,7 +54,7 @@ public class OrderService {
 		String output = orderObj.updateOrder(orderID, productName, price, quantity, prodDesc, orderDate);
 		return output;
 	}
-
+	
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -69,23 +69,28 @@ public class OrderService {
 		return output;
 	}
 
-	// Order Payments
+	//Order Payments
 	@POST
 	@Path("/Pay")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertPay(@FormParam("orderID") String orderID, @FormParam("payMethod") String payMethod,
-			@FormParam("cardType") String cardType, @FormParam("cardNo") String cardNo, @FormParam("SSN") String SSN,
-			@FormParam("cardExpDate") String cardExpDate, @FormParam("amount") String amount) {
-		String output = orderObj.insertPay(orderID, payMethod, cardType, cardNo, SSN, cardExpDate, amount);
+	public String insertPay(@FormParam("orderID") String orderID,
+			@FormParam("payMethod") String payMethod, @FormParam("cardType") String cardType,
+			@FormParam("cardNo") String cardNo, @FormParam("SSN") String SSN , @FormParam("cardExpDate") String cardExpDate,
+			@FormParam("amount") String amount)  {
+		String output = orderObj.insertPay(orderID, payMethod, cardType, cardNo, SSN,cardExpDate,amount);
 		return output;
 	}
-
+	
 	@GET
 	@Path("/Pay")
 	@Produces(MediaType.TEXT_HTML)
 	public String readOrderPay() {
 		return orderObj.readOrderPay();
 	}
-
+	
 }
+
+
+
+

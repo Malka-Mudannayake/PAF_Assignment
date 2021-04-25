@@ -52,7 +52,7 @@ public class Order {
 		return output;
 	}
 
-	//read order details 
+//read order details 
 	public String readOrders() {
 		String output = "";
 		try {
@@ -61,8 +61,8 @@ public class Order {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th> Order ID </th> <th>Product Name</th><th>Price</th>"
-					+ "<th>Quantity</th>" + "<th>Product Description</th>" + "<th>Order Date</th>"
+			output = "<table border='1'><tr><th> Order ID </th> <th>Product Name</th><th>Quantity</th>"
+					+ "<th> Price</th>" + "<th>Product Description</th>" + "<th>Order Date</th>"
 					+ "<th>Update</th><th>Remove</th><th>Buy</th></tr>";
 
 			String query = "select * from orders";
@@ -116,14 +116,15 @@ public class Order {
 			String query = "UPDATE orders SET productName=?,quantity=?,price=?,prodDesc=?, orderDate=? WHERE orderID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-
+			
+			
 			preparedStmt.setString(1, productName);
-			preparedStmt.setString(2, quantity);
-			preparedStmt.setDouble(3, Double.parseDouble(price));
+			preparedStmt.setString(3, quantity);
+			preparedStmt.setDouble(2, Double.parseDouble(price));
 			preparedStmt.setString(4, prodDesc);
 			preparedStmt.setString(5, orderDate);
 			preparedStmt.setInt(6, Integer.parseInt(orderID));
-
+			
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
@@ -202,11 +203,14 @@ public class Order {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th> pay ID </th> <th>order ID</th><th>Payment Method</th>"
+			output = "<table border='1'><tr><th> pay ID </th> <th>order ID</th><th>Product Name<th>Quantity</th>"
+					+ "<th> Price</th>" + "<th>Product Description</th>" + "<th>Order Date</th>"
+					+ "<th>Payment Method</th>"
 					+ "<th>Card Type</th>" + "<th>Card No</th> <th> SSN </th>"
 					+ "<th>Card ExpD Date</th> <th>Amount </th>" + "</tr>";
 
-			String query = "select * from orderpay ";
+		
+			String query = "select * from orderpay p , orders o where  o.orderID = p.orderID";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			// iterate through the rows in the result set
@@ -219,10 +223,20 @@ public class Order {
 				String SSN = rs.getString("SSN");
 				String cardExpDate = rs.getString("cardExpDate");
 				String amount = rs.getString("amount");
+				String productName = rs.getString("productName");
+				String quantity = rs.getString("quantity");
+				String price = Double.toString(rs.getDouble("price"));
+				String desc = rs.getString("prodDesc");
+				String orderDate = rs.getString("orderDate");
 
 				// Add into the html table
 				output += "<tr><td>" + payID + "</td>";
 				output += "<td>" + orderID + "</td>";
+				output += "<td>" + productName + "</td>";
+				output += "<td>" + quantity + "</td>";
+				output += "<td>" + price + "</td>";
+				output += "<td>" + desc + "</td>";
+				output += "<td>" + orderDate + "</td>";
 				output += "<td>" + payMethod + "</td>";
 				output += "<td>" + cardType + "</td>";
 				output += "<td>" + cardNo + "</td>";
