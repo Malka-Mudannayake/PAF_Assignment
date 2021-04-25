@@ -87,4 +87,20 @@ public class UserService {
 	 String output = userObj.deleteUser(userID);
 	return output;
 	}
+	
+	@POST
+	@Path("/login") 
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String LoginUser(@FormParam("Email") String email,@FormParam("Password") String password) {
+		String[] output = userObj.LoginUser(email, password);
+		String sessionDetails="";
+		if(output!=null) {
+			sessionDetails=(output[0]+","+output[1]+","+output[2]);
+		}
+		else {
+			sessionDetails="Invalid login details";
+		}		
+		return sessionDetails;
+	}
 }

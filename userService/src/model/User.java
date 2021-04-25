@@ -202,5 +202,36 @@ public class User {
 		 return output;
 	}
 	
+	public String[] LoginUser(String email, String pwd) {
+		String[] output = null;
+		
+		try {
+			Connection con = connect();
+			if (con == null) {
+				//return "Error while inserting.";
+			}
+			
+			String query = " select * from user where Email=? and Password=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, email);
+			preparedStmt.setString(2, pwd);
+			ResultSet rs=preparedStmt.executeQuery();
+			if(rs.next())
+			{	
+				String[] strs = { rs.getString("Id"),rs.getString("Name"),rs.getString("Email")};
+								
+				output =strs;
+			}
+			else {
+				output = null;					
+			}
+			con.close();
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+	
 	
 }
