@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class User {
 	
 	
-	
+	//database connectivity
 	private Connection connect()
 	 {
 	 Connection con = null;
@@ -26,6 +26,7 @@ public class User {
 	 }
 
 
+	//register user
 	public String insetUser(String username, String name, String phone, String email, String password)
 	 {
 		String output = "";
@@ -71,7 +72,7 @@ public class User {
 	 }
 	
 	
-	
+	//view user
 	public String readUser() {
 		
 		 String output = "";
@@ -116,7 +117,7 @@ public class User {
 				 output += "<td>" + password + "</td>";
 				 
 				 
-// buttons
+				 // buttons
 				 
 				 output += "<td><input name='btnUpdate' "
 						 + " type='button' value='Update'></td>"
@@ -139,7 +140,7 @@ public class User {
 		 return output;
 	}
 	
-	
+	//update user
 	public String updateUser(String userID , String username, String name, String phone, String email, String password)
 	{
 		 String output = "";
@@ -173,6 +174,7 @@ public class User {
 		 return output;
 	}
 	
+	//delete user
 	public String deleteUser(String userID) {
 		 String output = "";
 		 try {
@@ -202,6 +204,7 @@ public class User {
 		 return output;
 	}
 	
+	//login user
 	public String[] LoginUser(String email, String pwd) {
 		String[] output = null;
 		
