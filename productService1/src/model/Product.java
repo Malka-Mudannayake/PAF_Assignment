@@ -62,7 +62,7 @@ public class Product {
 			 output = "Product Inserted Successfully!!!!";
 		}catch (Exception e) {
 			
-			
+			// If error occurred while while inserting the product to system.
 			 output = "Error!!! while inserting the product to system.";
 			 System.err.println(e.getMessage());
 		}
@@ -80,7 +80,7 @@ public class Product {
 			 
 			 Connection con = connect();
 			 if (con == null) {
-				 
+				// If error occurred while while connecting to the database
 				 return "Error while connecting to the database for reading.";
 			 }
 			 
@@ -120,7 +120,7 @@ public class Product {
 				 output += "<td>" + researcher + "</td>";
 				
 				 
-				 // buttons
+				 // buttons in the table
 				 
 				 output += "<td><input name='btnUpdate' "
 						 + " type='button' value='Update'></td>"
@@ -137,7 +137,7 @@ public class Product {
 			 // Complete the html table
 			 output += "</table>";
 		 }catch (Exception e) {
-			 
+			// If error occurred while reading the Products table
 			 output = "Error!!!!! while reading the Products list.";
 			 System.err.println(e.getMessage());
 		 }
@@ -176,7 +176,7 @@ public class Product {
 			 
 			 
 		 } catch (Exception e) {
-			 
+			 // If error occurred while updating the Product
 			 output = "Error!!!! while updating the Product. Please check";
 			 System.err.println(e.getMessage());
 		 }
